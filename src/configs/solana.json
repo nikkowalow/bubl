@@ -1,0 +1,17 @@
+{
+    "endpoints": {
+        "DEVNET_CLUSTER": "https://api.devnet.solana.com",
+        "TESTNET_CLUSTER": "https://testnet.solana.com",
+        "MAINNET_CLUSTER": "https://mainnet.solana.com"
+    },
+    "programs" :{
+        "TOKEN_PROGRAM": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "DATA_UPLOAD_PROGRAM": "6Bad1wbZDUzEmD5KujyxPvaXX6UXyjA33B9Wgb8XPNA2",
+        "SEQUENCE_INCREMENTATION_PROGRAM": "5aDoSnuTXXwSdTuG3YQyk6kE92TutiGFWLGi1xWx1Nz4"
+    },
+    "accounts": {
+        "SEQUENCE_NUMBER_ACCOUNT": "5NppjK9KhUKTqYRJjP3sytE6A4WUGAVHQkKhnFHVxnTm",
+        "PAYER_ACCOUNT": "F8DMc5EPwNaKCkGbMMfrPRWjroBHv4Dby24bsEZJMYZy",
+        "BUBL_MAIN_ACCOUNT": "FS86giTYW3V2cgfQwC9rpnXyTiwYpyPZBX5LjbD3oTNq" 
+    }
+}

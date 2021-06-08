@@ -1,0 +1,66 @@
+@import url("https://use.typekit.net/ake0jey.css");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Encode Sans Expanded", sans-serif;
+}
+
+.connect-button {
+  border-radius: 50px;
+  background: rgb(0, 0, 0);
+  white-space: nowrap;
+  padding: 10px 22px;
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+.disconnect-button {
+  border-radius: 50px;
+  background: rgb(255, 0, 0);
+  white-space: nowrap;
+  padding: 10px 22px;
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+.test-to-push {
+  color: blue;
+}
+
+.header-name {
+  font-family: poppins;
+  font-weight: 800;
+  font-size: 45px;
+  font-style: normal;
+}
+
+.nav-menu {
+  font-family: poppins, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  font-style: normal;
+}
+
+.react-calendar {
+  /* width: 50px; */
+  /* height: 100%; */
+  width: 100%;
+  /* height: 100%; */
+  align-self: center;
+}
+
+.calendar {
+  width: 100%;
+}
