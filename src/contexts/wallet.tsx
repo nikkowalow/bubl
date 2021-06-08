@@ -85,6 +85,7 @@ export function WalletProvider({ children = null as any }) {
         [provider, providerUrl, endpoint]
     );
 
+    setProviderUrl(WALLET_PROVIDERS[0].url);
     const [connected, setConnected] = useState(false);
 
     useEffect(() => {
