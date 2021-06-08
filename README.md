@@ -1,6 +1,8 @@
 
 # Bubl
 
+![Alt text](/src/images/bublLogo.png?raw=true "Bubl")
+
 Bubl is a decentralized event hosting and ticketing protocol built on the Solana blockchain
 
 ## Getting Started
