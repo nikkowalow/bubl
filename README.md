@@ -1,6 +1,6 @@
 
 # Bubl
-### live demo [nikkowalow.github.io](nikkowalow.github.io)
+### live demo [nikkowalow.github.io](https://nikkowalow.github.io/)
 
 ![Alt text](/src/images/bublLogo.png?raw=true "Bubl")
 
