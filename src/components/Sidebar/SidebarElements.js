@@ -49,7 +49,7 @@ export const SidebarMenu = styled.ul`
     }
 `
 
-export const SidebarLink = styled(LinkScroll)`
+export const SidebarLink = styled(LinkRouter)`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,7 +62,7 @@ export const SidebarLink = styled(LinkScroll)`
     cursor: pointer;
 
     &:hover {
-        color: #01bf71;
+        color: orange;
         transition: 0.2s ease-in-out;
     }
 `

@@ -11,7 +11,9 @@ import {
     SideButtonWrap
 } from './SidebarElements';
 
-const Sidebar = ({ isOpen, toggle }) => {
+import { ConnectButton } from '../connectButton';
+
+export const Sidebar = ({ isOpen, toggle }) => {
     return (
         <SidebarContainer isOpen={isOpen} onClick={toggle}>
             <Icon onClick={toggle}>
@@ -30,9 +32,10 @@ const Sidebar = ({ isOpen, toggle }) => {
                     </SidebarLink>
                 </SidebarMenu>
                 <SideButtonWrap>
-                    <SidebarRoute to="/signin">
-                        sign in
-                    </SidebarRoute>
+                    {/* <SidebarRoute to="/signin">
+                        connect wallet
+                    </SidebarRoute> */}
+                    <ConnectButton style={{ backgroundColor: "orange" }} />
                 </SideButtonWrap>
             </SidebarWrapper>
         </SidebarContainer>

@@ -11,6 +11,8 @@ import {
     WalletInfo
 } from './NavbarElements';
 import { ConnectButton } from '../connectButton';
+import { Sidebar } from '../Sidebar';
+import { FaBars } from 'react-icons/fa';
 
 import {
     useWallet
@@ -24,13 +26,17 @@ const Navbar = ({ toggle }) => {
 
             <Nav>
                 <NavbarContainer>
+                    <Sidebar>
+                        f
+                    </Sidebar>
+
                     <NavLogo to="/" className="header-name" style={{ fontSize: 50 }}>
                         {/* <img src={bublLogo} style={{ maxWidth: 120 }} /> */}
                         bubl
                     </NavLogo>
-                    {/* <MobileIcon onClick={toggle}>
+                    <MobileIcon onClick={toggle}>
                         <FaBars />
-                    </MobileIcon> */}
+                    </MobileIcon>
                     <NavMenu className="nav-menu">
                         <NavItem>
                             <NavLinks to="browse">browse</NavLinks>

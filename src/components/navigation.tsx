@@ -9,6 +9,7 @@ export const Navigation = () => {
     }
     return (
         <div>
+            <Sidebar isOpen={isOpen} toggle={toggle} />
             <Navbar toggle={toggle} />
         </div >
     )

@@ -16,7 +16,7 @@ export const FormContainer = styled.div`
 `
 
 export const FormWrapper = styled.div`
-    max-width: 1600px;
+    max-width: 100%;
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 16px;
@@ -50,6 +50,12 @@ export const FormShape = styled.div`
     transition: all 0.2s ease-in-out;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 12px;
     justify-content: space-between;
+
+    @media screen and (max-width: 900px) {
+        width: 100%;
+        font-family: arial,sans-serif;
+    }
+
 `
 
 export const FormIcon = styled.img`
@@ -125,7 +131,10 @@ export const EventType = styled.button`
     &:focus {
         border: 2px solid black;
     }
-
+    @media screen and (max-width: 900px) {     
+        margin: 5px;
+        padding: 14px 48px;
+    }
 `
 
 export const EventTypeContainer = styled.div`
@@ -133,7 +142,13 @@ export const EventTypeContainer = styled.div`
     grid-template-columns: 1fr 1fr;
         grid-gap: 0px;
     align-items: center;
-    padding: 15px;
+    /* padding: 15px; */
+
+    @media screen and (max-width: 900px) {
+        width: 100%;
+        grid-template-columns: 1fr;
+
+    }
 
 `
 

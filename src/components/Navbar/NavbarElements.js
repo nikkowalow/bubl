@@ -42,6 +42,7 @@ export const NavLogo = styled(LinkRouter)`
 
 export const MobileIcon = styled.div`
     display: none;
+    color: black;
     
 
     @media screen and (max-width: 768px) {
@@ -52,7 +53,7 @@ export const MobileIcon = styled.div`
         transform: translate(-100%, 60%);
         font-size: 1.8rem;
         cursor: pointer;
-        color: #01bf71;
+        color: #000;
     }
 `
 
@@ -61,7 +62,6 @@ export const NavMenu = styled.ul`
     align-items: center;
     list-style: none;
     text-align: center;
-    margin-left: 135px;
 
     @media screen and (max-width: 768px) {
         display: none;
@@ -81,6 +81,7 @@ export const NavLinks = styled(LinkRouter)`
     padding: 0 1.5rem;
     height: 100%;
     cursor: pointer;
+
     &.active {
         border-bottom: 3px solid #01bf71
     }
