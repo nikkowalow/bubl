@@ -24,6 +24,8 @@ import {
     MINT_LAYOUT,
     ACCOUNT_LAYOUT
 } from './layouts';
+import { store } from 'react-notifications-component';
+import { notification, DANGER_TYPE, SUCCESS_TYPE } from '../constants/notifications';
 
 export const TOKEN_PROGRAM_ID = new PublicKey(solana.programs.TOKEN_PROGRAM);
 
@@ -186,7 +188,7 @@ export const createToken = async (connection: Connection, owner: any, mint: Keyp
     return {mint: mint, mintAuthority: mintAuthority};
 }
 
-export const buyTicket = async(connection: Connection, event: any, owner: any, mint: Keypair, mintAuthority: Keypair, originalTicketWallet: Keypair, amount: number) => {
+export const buyTicket = async(connection: Connection, event: any, owner: any, mint: Keypair, mintAuthority: Keypair, originalTicketWallet: Keypair, amount: number): Promise<boolean> => {
 
     const newTicketWallet: Keypair = Keypair.generate();
     let signers: Keypair[] = [];
@@ -201,8 +203,14 @@ export const buyTicket = async(connection: Connection, event: any, owner: any, m
     let transaction = new Transaction();
 
     if(userBalance < totalPrice) {
-        alert('your balance is too low');
-        return;
+        store.addNotification(
+            notification(
+                "Insufficient balance",
+                `${totalPrice/ LAMPORTS_PER_SOL} SOL required but you only have ${userBalance / LAMPORTS_PER_SOL} SOL`,
+                DANGER_TYPE
+            )
+        );
+        return false;
     }
 
     transaction.add(SystemProgram.transfer({
@@ -245,9 +253,24 @@ export const buyTicket = async(connection: Connection, event: any, owner: any, m
         signers.push(mintAuthority);
         signers.push(newTicketWallet);
 
-        await signAndSendTransaction(connection, transaction, owner, signers);
+        const tx = await signAndSendTransaction(connection, transaction, owner, signers);
+        store.addNotification(
+            notification(
+                "Success",
+                `${amount} tickets bought for ${totalPrice / LAMPORTS_PER_SOL} SOL`,
+                SUCCESS_TYPE
+            )
+        )
+        return tx ? true : false;
     } else {
-        alert(`you requested ${amount} ticket(s) but there are ${ticketsLeft} left in circulation`);
+        store.addNotification(
+            notification(
+                "Low ticket supply",
+                `you requested ${amount} ticket(s) but there are ${ticketsLeft} left in circulation`,
+                DANGER_TYPE
+            )
+        );
+        return false;
     }
 }
 

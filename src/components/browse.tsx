@@ -51,7 +51,7 @@ export class Browse extends React.Component<BrowseProps, any> {
                             {event.description}
                         </CardsP> */}
                         <CardsP>
-                            {(event.date?.toString()).substring(0, DATE_LENGTH)}
+                            {(event.date?.toString())?.substring(0, DATE_LENGTH)}
                         </CardsP>
                         <CardsP>
                             {event.address}
@@ -72,7 +72,7 @@ export class Browse extends React.Component<BrowseProps, any> {
         return (
             <div>
                 <CardsContainer id="Cards" >
-                    <CardsH1>Browse Events</CardsH1>
+                    <CardsH1>Events</CardsH1>
                     <CardsWrapper>
                         {events}
                     </CardsWrapper>

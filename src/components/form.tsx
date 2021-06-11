@@ -18,37 +18,34 @@ import {
     ReviewLabel,
 } from './Form/FormElements';
 
+import {
+    NavLinks
+} from './Navbar/NavbarElements';
+
 import Calendar from 'react-calendar';
 import {
     WalletContext
 } from '../contexts/wallet';
-
+import { Redirect, Link } from 'react-router-dom'
 import { createEvent } from '../utils/createEvent';
-
-import {
-    Map
-} from './map';
-
+import { Map } from './map'
 import 'date-fns';
-
-import {
-    NUM_STEPS_FOR_FORM
-} from '../constants';
+import { NUM_STEPS_FOR_FORM } from '../constants';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
+import { store } from 'react-notifications-component';
+import { notification, SUCCESS_TITLE, SUCCESS_TYPE } from '../constants/notifications';
 
 interface EventData {
 
 }
-
 const eventTypes = ['sports, fitness', 'music, art, fashion', 'food', 'movies & TV', 'work related', 'other'];
 const location = {
     address: '',
     lat: 0.0,
     lng: 0.0,
 }
-
 export class Form extends React.Component {
 
     initialFormData: EventData = {};
@@ -59,7 +56,8 @@ export class Form extends React.Component {
         category: '',
         ticketSupply: 0,
         ticketPrice: 0,
-        date: null
+        date: null,
+        eventCreated: false
     }
 
     handleChange = event => {
@@ -72,7 +70,26 @@ export class Form extends React.Component {
     handleSubmit = async event => {
         const wallet = this.context;
         event.preventDefault()
-        await createEvent(wallet.wallet, this.state);
+        const eventStatus = await createEvent(wallet.wallet, this.state);
+        if (eventStatus) {
+            store.addNotification(
+                notification(
+                    SUCCESS_TITLE,
+                    "Event has been created",
+                    SUCCESS_TYPE
+                )
+            );
+        } else {
+            store.addNotification(
+                notification(
+                    "Error",
+                    "Event creation failed",
+                    "danger"
+                )
+            );
+        }
+
+        this.setState({ eventCreated: true });
     }
 
     goNext = () => {
@@ -80,7 +97,8 @@ export class Form extends React.Component {
         currentStep = currentStep >= NUM_STEPS_FOR_FORM ? 3 : currentStep + 1
         this.setState({
             currentStep
-        })
+        });
+
     }
 
     goPrev = () => {
@@ -107,6 +125,7 @@ export class Form extends React.Component {
         let currentStep = this.state.currentStep;
         if (currentStep < NUM_STEPS_FOR_FORM) {
             return (
+
                 <NextButton onClick={this.goNext}>
                     Next
                 </NextButton>
@@ -302,6 +321,9 @@ export class Form extends React.Component {
     }
 
     render() {
+        if (this.state.eventCreated) {
+            return <Redirect to={"/browse"} />;
+        }
         return (
             <React.Fragment>
                 {/* <FormWrapper> */}

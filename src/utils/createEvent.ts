@@ -213,37 +213,31 @@ export async function fetchEvents(): Promise<any[]> {
     return events;
 }
 
-export async function createEvent(wallet: any, data: any): Promise<void> {
+export async function createEvent(wallet: any, data: any): Promise<boolean> {
 
     await establishConnection();
-
     await incrementSequenceNumber();
 
-    const currentSequenceNumber = await fetchCurrentSequenceNumber();
+    const currentSequenceNumber = (await fetchCurrentSequenceNumber())?.[0];
 
-    var mintSeed = BASE_SEED + MINT_SEED + currentSequenceNumber;
-    while(mintSeed.length < 32) mintSeed += '0';
+    if(currentSequenceNumber == null) return false;
+    const length = currentSequenceNumber.toString().length;
 
-    var mintAuthoritySeed = BASE_SEED + MINT_AUTHORITY_SEED + currentSequenceNumber;
-    while(mintAuthoritySeed.length < 32) mintAuthoritySeed += '0';
-
-    var ticketWalletSeed = BASE_SEED + TICKET_WALLET_SEED + currentSequenceNumber;
-    while(ticketWalletSeed.length < 32) ticketWalletSeed += '0';
-
+    var mintSeed = BASE_SEED + MINT_SEED;
+    mintSeed = mintSeed.padEnd(32 - length, '0') + currentSequenceNumber;
+    var mintAuthoritySeed = BASE_SEED + MINT_AUTHORITY_SEED;
+    mintAuthoritySeed = mintAuthoritySeed.padEnd(32 - length, '0') + currentSequenceNumber;
+    var ticketWalletSeed = BASE_SEED + TICKET_WALLET_SEED;
+    ticketWalletSeed = ticketWalletSeed.padEnd(32 - length, '0') + currentSequenceNumber;
 
     const eventAccount: Account = new Account();
 
     data.host = wallet._publicKey.toString(); 
     data.sequenceNumber = currentSequenceNumber;
-    
     data.eventAccount = eventAccount.secretKey;
-    
-    const dataLayout = await setEventData(data);   
 
-    await createEventKeypair(eventAccount, dataLayout.span);
-
+    await createEventKeypair(eventAccount, (await setEventData(data)).span);
     await uploadData(eventAccount.publicKey, PAYER_KEYPAIR, data);
-        
     await createToken(
         connection, 
         wallet, 
@@ -252,4 +246,5 @@ export async function createEvent(wallet: any, data: any): Promise<void> {
         Keypair.fromSeed(new Uint8Array(Buffer.from(ticketWalletSeed))), 
         data.ticketSupply
     );
+    return true;
 }

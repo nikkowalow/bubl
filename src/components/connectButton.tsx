@@ -11,7 +11,7 @@ export interface ConnectButtonProps
 export const ConnectButton = (props: ConnectButtonProps) => {
     const { connected, connect, disconnect, select, provider } = useWallet();
 
-    const button = (!connected) ?
+    const button = !connected ?
         <button key="connect-button" className="connect-button" onClick={connect}>
             connect wallet
         </button>

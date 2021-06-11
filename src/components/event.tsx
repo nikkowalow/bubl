@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Redirect } from 'react-router-dom';
 import {
     Connection,
     Keypair
@@ -29,8 +29,12 @@ import {
 import {
     BASE_SEED,
     MINT_SEED,
-    MINT_AUTHORITY_SEED
+    MINT_AUTHORITY_SEED,
+    TICKET_WALLET_SEED
 } from '../constants';
+
+import { notification, ERROR_TITLE, DANGER_TYPE } from '../constants/notifications';
+import { store } from 'react-notifications-component';
 
 interface EventProps {
     event?: any;
@@ -45,7 +49,8 @@ export class Event extends React.Component<EventProps, any> {
         super(props);
         this.state = {
             events: [],
-            tickets: 0,
+            tickets: 1,
+            tx: false,
         };
     }
 
@@ -53,36 +58,48 @@ export class Event extends React.Component<EventProps, any> {
         this.setState({ tickets: value });
     };
 
-    valuetext = (value: number) => {
+    valueText = (value: number) => {
         return `${value} tickets`;
     }
 
     buyTicket = async (event: any, amount: number) => {
-        if (amount > 0) {
-            const wallet = this.context.wallet;
-
-            const currentSequenceNumber = event.sequenceNumber;
-            var s = BASE_SEED + MINT_SEED + currentSequenceNumber;
-            while (s.length < 32) s += '0'
-
-            var s2 = BASE_SEED + MINT_AUTHORITY_SEED + currentSequenceNumber;
-            while (s2.length < 32) s2 += '0'
-
-            var s3 = BASE_SEED + "TICKET_WALLET_" + currentSequenceNumber;
-            while (s3.length < 32) s3 += '0'
-
-            const mint: Keypair = Keypair.fromSeed(new Uint8Array(Buffer.from(s)));
-            const mintAuthority: Keypair = Keypair.fromSeed(new Uint8Array(Buffer.from(s2)));
-            const ticketWallet: Keypair = Keypair.fromSeed(new Uint8Array(Buffer.from(s3)));
-
-            await buyTicket(this.connection, event, wallet, mint, mintAuthority, ticketWallet, amount);
-        } else {
-            alert("you must buy at least one ticket");
+        const wallet = this.context.wallet;
+        if (!wallet.connected) {
+            store.addNotification(
+                notification(
+                    ERROR_TITLE,
+                    "Please connect your wallet",
+                    DANGER_TYPE
+                )
+            );
+            return;
         }
+
+        const currentSequenceNumber = event.sequenceNumber;
+        const length = currentSequenceNumber.toString().length;
+
+        var s = BASE_SEED + MINT_SEED;
+        s = s.padEnd(32 - length, '0') + currentSequenceNumber;
+
+        console.log(s);
+        var s2 = BASE_SEED + MINT_AUTHORITY_SEED;
+        s2 = s2.padEnd(32 - length, '0') + currentSequenceNumber;
+
+        var s3 = BASE_SEED + TICKET_WALLET_SEED;
+        s3 = s3.padEnd(32 - length, '0') + currentSequenceNumber;
+
+        const mint: Keypair = Keypair.fromSeed(new Uint8Array(Buffer.from(s)));
+        const mintAuthority: Keypair = Keypair.fromSeed(new Uint8Array(Buffer.from(s2)));
+        const ticketWallet: Keypair = Keypair.fromSeed(new Uint8Array(Buffer.from(s3)));
+
+        const tx = await buyTicket(this.connection, event, wallet, mint, mintAuthority, ticketWallet, amount);
+        this.setState({ tx });
     }
 
     render() {
-
+        if (this.state.tx) {
+            return <Redirect to="/mytickets" />
+        }
         return (
             <FormContainer id="Form">
                 <FormWrapper>
@@ -103,10 +120,10 @@ export class Event extends React.Component<EventProps, any> {
                                 <ReviewLabel>ticket supply</ReviewLabel>
                                 {this.props.event?.ticketSupply}
                                 <ReviewLabel>price per ticket</ReviewLabel>
-                                 ◎{this.props.event?.ticketPrice}
+                                ◎{this.props.event?.ticketPrice}
                                 <Slider
-                                    defaultValue={30}
-                                    getAriaValueText={this.valuetext}
+                                    defaultValue={1}
+                                    getAriaValueText={this.valueText}
                                     aria-labelledby="discrete-slider"
                                     valueLabelDisplay="auto"
                                     step={1}
@@ -114,6 +131,7 @@ export class Event extends React.Component<EventProps, any> {
                                     min={1}
                                     max={20}
                                     onChange={this.onSliderChange}
+                                    style={{ color: "#e00077" }}
                                 />
                                 <Button onClick={() => this.buyTicket(this.props.event, this.state.tickets)}>
                                     Buy Ticket (s)

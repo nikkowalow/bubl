@@ -15,6 +15,8 @@ import { useConnectionConfig } from "./connection";
 import { useLocalStorageState } from "./../utils/utils";
 import { PhantomWalletAdapter } from "./wallets/Phantom";
 import * as solana from '../configs/solana.json';
+import { notification } from '../constants/notifications';
+import { store } from 'react-notifications-component';
 
 const ASSETS_URL =
     "https://raw.githubusercontent.com/solana-labs/oyster/main/assets/wallets/";
@@ -105,10 +107,24 @@ export function WalletProvider({ children = null as any }) {
                             )}`
                             : walletPublicKey;
                 }
+                store.addNotification(
+                    notification(
+                        "Success",
+                        "Wallet connected",
+                        "default"
+                    )
+                )
             });
 
             wallet.on("disconnect", () => {
                 setConnected(false);
+                store.addNotification(
+                    notification(
+                        "Success",
+                        "Wallet disconnected",
+                        "default"
+                    )
+                )
             });
         }
 

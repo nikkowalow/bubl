@@ -8,16 +8,15 @@ import { Navigation } from './navigation';
 import { Host } from './host';
 import { Tickets } from './tickets';
 import { Event } from './event';
-
+import ReactNotification from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 interface EventInfo {
 
 }
-
 export class MainView extends React.Component<{}, any> {
 
     constructor(props) {
         super(props)
-
         this.state = {
             event: null,
         };
@@ -32,6 +31,7 @@ export class MainView extends React.Component<{}, any> {
             <Router >
                 <ConnectionProvider>
                     <WalletProvider>
+                        <ReactNotification />
                         <Navigation />
                         <Route path="/" component={Home} exact />
                         <Route path="/browse">
