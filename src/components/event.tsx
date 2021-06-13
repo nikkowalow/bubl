@@ -116,7 +116,7 @@ export class Event extends React.Component<EventProps, any> {
                                 <ReviewLabel>address</ReviewLabel>
                                 {this.props.event?.address}
                                 <ReviewLabel>date and time</ReviewLabel>
-                                {this.props.event?.date.toString().substring(0, 10)}
+                                {this.props.event?.date?.toString().substring(0, 10)}
                                 <ReviewLabel>ticket supply</ReviewLabel>
                                 {this.props.event?.ticketSupply}
                                 <ReviewLabel>price per ticket</ReviewLabel>

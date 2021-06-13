@@ -187,6 +187,20 @@ export class Form extends React.Component {
     Step1(props: any) {
         if (props.currentStep !== 1)
             return null;
+        return (
+            <>
+                <FormH2>basic info</FormH2>
+                <FormLabel>name of your event</FormLabel>
+                <SmallInput onChange={props.handleChange} name="eventName" value={props.state.eventName}></SmallInput>
+                <FormLabel>short description</FormLabel>
+                <LargeInput onChange={props.handleChange} name="description" value={props.state.description}></LargeInput>
+            </>
+        );
+    }
+
+    Step2(props: any) {
+        if (props.currentStep !== 2)
+            return null;
         navigator.geolocation.getCurrentPosition(function (position) {
             location.lat = position.coords.latitude;
             location.lng = position.coords.longitude;
@@ -203,8 +217,8 @@ export class Form extends React.Component {
         );
     }
 
-    Step2(props: any) {
-        if (props.currentStep !== 2)
+    Step3(props: any) {
+        if (props.currentStep !== 3)
             return null;
         return (
             <>
@@ -216,8 +230,8 @@ export class Form extends React.Component {
         );
     }
 
-    Step3(props: any) {
-        if (props.currentStep !== 3)
+    Step4(props: any) {
+        if (props.currentStep !== 4)
             return null;
         return (
             <>
@@ -234,8 +248,8 @@ export class Form extends React.Component {
         );
     }
 
-    Step4(props: any) {
-        if (props.currentStep !== 4)
+    Step5(props: any) {
+        if (props.currentStep !== 5)
             return null;
         return (
             <>
@@ -258,8 +272,8 @@ export class Form extends React.Component {
         );
     }
 
-    Step5(props: any) {
-        if (props.currentStep !== 5)
+    Step6(props: any) {
+        if (props.currentStep !== 6)
             return null
         return (
             <>
@@ -278,20 +292,6 @@ export class Form extends React.Component {
                         <AddIcon onClick={() => props.incrementTicketPrice()} />
                     </Fab>
                 </TicketSupplyContainer>
-            </>
-        );
-    }
-
-    Step6(props: any) {
-        if (props.currentStep !== 6)
-            return null;
-        return (
-            <>
-                <FormH2>basic info</FormH2>
-                <FormLabel>name of your event</FormLabel>
-                <SmallInput onChange={props.handleChange} name="eventName" value={props.state.eventName}></SmallInput>
-                <FormLabel>short description</FormLabel>
-                <LargeInput onChange={props.handleChange} name="description" value={props.state.description}></LargeInput>
             </>
         );
     }
@@ -332,37 +332,37 @@ export class Form extends React.Component {
                         currentStep={this.state.currentStep}
                         handleChange={this.handleChange}
                         state={this.state}
-                        onCategoryChange={this.onCategoryChange}
                     />
                     <this.Step2
                         currentStep={this.state.currentStep}
                         handleChange={this.handleChange}
                         state={this.state}
+                        onCategoryChange={this.onCategoryChange}
                     />
                     <this.Step3
                         currentStep={this.state.currentStep}
                         handleChange={this.handleChange}
                         state={this.state}
-                        onDateChange={this.onDateChange}
                     />
                     <this.Step4
+                        currentStep={this.state.currentStep}
+                        handleChange={this.handleChange}
+                        state={this.state}
+                        onDateChange={this.onDateChange}
+                    />
+                    <this.Step5
                         currentStep={this.state.currentStep}
                         handleChange={this.handleChange}
                         state={this.state}
                         decrementTicketSupply={this.decrementTicketSupply}
                         incrementTicketSupply={this.incrementTicketSupply}
                     />
-                    <this.Step5
+                    <this.Step6
                         currentStep={this.state.currentStep}
                         handleChange={this.handleChange}
                         state={this.state}
                         decrementTicketPrice={this.decrementTicketPrice}
                         incrementTicketPrice={this.incrementTicketPrice}
-                    />
-                    <this.Step6
-                        currentStep={this.state.currentStep}
-                        handleChange={this.handleChange}
-                        state={this.state}
                     />
                     <this.Step7
                         currentStep={this.state.currentStep}
